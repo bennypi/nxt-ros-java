@@ -1,0 +1,14 @@
+<package>
+  <description brief="nxt_ros_java">
+
+     nxt_ros_java
+
+  </description>
+  <author>benny</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/nxt_ros_java</url>
+
+</package>
+
+
