@@ -13,19 +13,26 @@ import org.ros.node.topic.Publisher;
  * @author damonkohler@google.com (Damon Kohler)
  */
 public class Talker extends AbstractNodeMain {
+	ConnectedNode connectedNode=null;
 
-  @Override
-  public GraphName getDefaultNodeName() {
-    return GraphName.of("rosjava_tutorial_pubsub/talker");
-  }
+	public void waitForNode(){
+		while(this.connectedNode==null){
+			try{
+				Thread.sleep(100);
+			}catch(Exception e){
 
-  @Override
-  public void onStart(final ConnectedNode connectedNode) {
+			}
+		}
+	}
+
+
+	public void startToChat(){
+		System.out.println("StartToChat");
     final Publisher<std_msgs.String> publisher =
-        connectedNode.newPublisher("chatter", std_msgs.String._TYPE);
+        this.connectedNode.newPublisher("chatter", std_msgs.String._TYPE);
     // This CancellableLoop will be canceled automatically when the node shuts
     // down.
-    connectedNode.executeCancellableLoop(new CancellableLoop() {
+    this.connectedNode.executeCancellableLoop(new CancellableLoop() {
       private int sequenceNumber;
 
       @Override
@@ -42,5 +49,20 @@ public class Talker extends AbstractNodeMain {
         Thread.sleep(1000);
       }
     });
+		System.out.println("StartToChat done");
+	}
+
+
+	public String getFoo(){
+		return "foo";
+	}
+  @Override
+  public GraphName getDefaultNodeName() {
+    return GraphName.of("rosjava_tutorial_pubsub/talker");
+  }
+
+  @Override
+  public void onStart(ConnectedNode connectedNode) {
+		this.connectedNode = connectedNode;
   }
 }

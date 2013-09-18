@@ -3,7 +3,8 @@
 
 apply plugin: 'application'
 
-mainClassName = 'org.ros.RosRun'
+// mainClassName = 'org.ros.RosRun'
+mainClassName = 'org.ros.nxt_ros_java.MyMain'
 
 apply plugin: 'java'
 apply plugin: 'maven'
@@ -30,4 +31,5 @@ dependencies {
   compile 'ros.rosjava_core:rosjava:0.0.0-SNAPSHOT'
   compile 'ros.rosjava_core:rosjava_messages:0.0.0-SNAPSHOT'
   compile 'ros.rosjava_core:rosjava_bootstrap:0.0.0-SNAPSHOT'
+  compile 'ros.rosjava_core:rosjava_geometry:0.0.0-SNAPSHOT'
 }
