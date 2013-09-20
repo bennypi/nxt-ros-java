@@ -1,5 +1,6 @@
 package org.ros.nxt_ros_java;
 
+import nxt_msgs.Color;
 import nxt_msgs.Contact;
 import nxt_msgs.Range;
 
@@ -32,9 +33,12 @@ public class Talker extends AbstractNodeMain {
 	// Subscriber für Entferunssensor
 	private Subscriber<nxt_msgs.Range> subscriberRange;
 
+	private Subscriber<nxt_msgs.Color> subscriberIntensity;
+
 	boolean contactStatus = false;
 	double range = 0;
-	
+	double intensity = 0;
+
 	/**
 	 * Wartet so lange ab, bis sich die Node mit dem Master verbunden hat.
 	 */
@@ -193,7 +197,7 @@ public class Talker extends AbstractNodeMain {
 	 * @throws InterruptedException
 	 */
 	public boolean getContact() throws InterruptedException {
-		
+
 		// Sensor liefert 20Hz
 		// Thread.sleep(50);
 		return contactStatus;
@@ -204,10 +208,21 @@ public class Talker extends AbstractNodeMain {
 	 * 
 	 * @return Die Distanz in cm.
 	 */
-	public double getRange(){
+	public double getRange() {
 		// Sensor liefert 10Hz
 		// Thread.sleep(100);
 		return range;
+	}
+	
+	/**
+	 * Liefert die Helligkeit des Lichtsensors.
+	 * 
+	 * @return Die Distanz in cm.
+	 */
+	public double getIntensity() {
+		// Sensor liefert 10Hz
+		// Thread.sleep(100);
+		return intensity;
 	}
 
 	/**
@@ -230,18 +245,27 @@ public class Talker extends AbstractNodeMain {
 				nxt_msgs.Contact._TYPE);
 		subscriberRange = connectedNode.newSubscriber("ultrasonic_sensor",
 				nxt_msgs.Range._TYPE);
+		subscriberIntensity = connectedNode.newSubscriber("intensity_sensor",
+				nxt_msgs.Color._TYPE);
 		subscriberRange
-		.addMessageListener(new MessageListener<nxt_msgs.Range>() {
-			@Override
-			public void onNewMessage(Range message) {
-				range = message.getRange();
-			}
-		});
+				.addMessageListener(new MessageListener<nxt_msgs.Range>() {
+					@Override
+					public void onNewMessage(Range message) {
+						range = message.getRange();
+					}
+				});
 		subscriberContact
-		.addMessageListener(new MessageListener<nxt_msgs.Contact>() {
+				.addMessageListener(new MessageListener<nxt_msgs.Contact>() {
+					@Override
+					public void onNewMessage(Contact message) {
+						contactStatus = message.getContact();
+					}
+				});
+		subscriberIntensity.addMessageListener(new MessageListener<Color>() {
+
 			@Override
-			public void onNewMessage(Contact message) {
-				contactStatus = message.getContact();
+			public void onNewMessage(Color message) {
+				intensity = message.getIntensity();
 			}
 		});
 	}
