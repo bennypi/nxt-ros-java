@@ -18,7 +18,7 @@ package org.ros.nxt_ros_java;
 
 import org.ros.node.NodeMain;
 import org.ros.nxt_ros_java.Talker;
-import org.ros.nxt_ros_java.NxtRosJavaInit;
+import org.ros.nxt_ros_java.NxtJavaHandler;
 /**
  * This is a main class entry point for executing {@link NodeMain}s.
  * 
@@ -27,21 +27,21 @@ import org.ros.nxt_ros_java.NxtRosJavaInit;
  */
 public class MyMain {
   public static void main(String[] argv) throws Exception {
-		NxtRosJavaInit init = new NxtRosJavaInit(argv);
+		NxtJavaHandler init = new NxtJavaHandler(argv);
 		Talker t = init.getTalkerInstance();
 		System.out.println("Waiting ....");
 		t.waitForNode();
 		System.out.println("Waiting done");
-		for (int a = 0; a<20; a++){
-			System.out.println(t.getRange());
-		}
-		for (int i = 0; i<4; i++){
-			System.out.println(t.getRange());
-			while (t.getRange()>0.35){
-				t.runTwoMotors("b", "c", 0, 1);				
-			}
-			t.runMotorB(750, 1);
-		}
-		t.allMotorStop();
+//		for (int i = 0; i<4; i++){
+//			while (t.getRange()>0.4){
+//				t.runTwoMotors("b", "c", 0, 1);
+//				System.out.println("Abstand zu groß: " + t.getRange());
+//			}
+//			t.runMotorB(750, 1);
+//			System.out.println("Abstand zu klein: " + t.getRange());
+//		}
+//		t.allMotorStop();
+		t.runTwoMotors("b", "c", 2000, 1);
+		t.runTwoMotors("b", "c", 20, -1);
   }
 }

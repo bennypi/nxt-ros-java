@@ -18,7 +18,7 @@ import org.ros.nxt_ros_java.Talker;
  * @author benny
  * 
  */
-public class NxtRosJavaInit {
+public class NxtJavaHandler {
 
 	private Talker talkerInstance;
 
@@ -26,7 +26,7 @@ public class NxtRosJavaInit {
 		return this.talkerInstance;
 	}
 
-	public NxtRosJavaInit(String[] argv) {
+	public NxtJavaHandler(String[] argv) {
 		CommandLineLoader loader = new CommandLineLoader(
 				Lists.newArrayList(argv));
 		NodeConfiguration nodeConfiguration = loader.build();
