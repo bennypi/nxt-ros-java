@@ -41,6 +41,8 @@ public class MyMain {
 		System.out.println("Waiting ....");
 		t.waitForNode();
 		System.out.println("Waiting done");
-		t.startToChat();
+		for(int i = 0; i < 100; i++){
+			System.out.println(t.getRange());			
+		}
   }
 }

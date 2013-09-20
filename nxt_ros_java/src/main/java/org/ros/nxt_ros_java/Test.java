@@ -4,18 +4,16 @@ import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
 
-public class Test extends AbstractNodeMain{
+public class Test{
 
-	@Override
-	public GraphName getDefaultNodeName() {
-		// TODO Auto-generated method stub
-		return null;
+	public static void main(String[] argv){
+		System.out.println("Hello world");
+		
+		String _DEFINITION = "Name\n3.5\n";
+		String[] tmp = _DEFINITION.split("\n");
+		Double i = Double.parseDouble(tmp[1]);
+		System.out.println(i);
+		System.out.println(tmp[0]);
+		System.out.println(tmp[1]);
 	}
-	
-	public void onStart(ConnectedNode connectedNode){
-		System.out.println("Test");
-	}
-
-
-
 }
