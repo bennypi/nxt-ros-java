@@ -11,7 +11,7 @@ nxt_robot:
     frame_id: touch_frame
     name: touch_sensor
     port: PORT_1
-    desired_frequency: 20.0
+    desired_frequency: 10.0
   - type: ultrasonic
     frame_id: r_ultrasonic_link
     name: ultrasonic_sensor

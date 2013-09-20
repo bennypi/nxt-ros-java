@@ -32,9 +32,9 @@ public class Talker extends AbstractNodeMain {
 	// Subscriber für Entferunssensor
 	private Subscriber<nxt_msgs.Range> subscriberRange;
 
-	boolean status = false;
+	boolean contactStatus = false;
 	double range = 0;
-
+	
 	/**
 	 * Wartet so lange ab, bis sich die Node mit dem Master verbunden hat.
 	 */
@@ -166,11 +166,11 @@ public class Talker extends AbstractNodeMain {
 			publisherJointCommand.publish(command2);
 		}
 	}
-	
+
 	/**
 	 * Setzt die Kraft aller Motoren auf 0.
 	 */
-	public void allMotorStop(){
+	public void allMotorStop() {
 		nxt_msgs.JointCommand command1 = publisherJointCommand.newMessage();
 		nxt_msgs.JointCommand command2 = publisherJointCommand.newMessage();
 		nxt_msgs.JointCommand command3 = publisherJointCommand.newMessage();
@@ -193,34 +193,20 @@ public class Talker extends AbstractNodeMain {
 	 * @throws InterruptedException
 	 */
 	public boolean getContact() throws InterruptedException {
-		subscriberContact
-				.addMessageListener(new MessageListener<nxt_msgs.Contact>() {
-					@Override
-					public void onNewMessage(Contact message) {
-						status = message.getContact();
-					}
-				});
+		
 		// Sensor liefert 20Hz
-		Thread.sleep(50);
-		return status;
+		// Thread.sleep(50);
+		return contactStatus;
 	}
 
 	/**
 	 * Liefert die Distanz des Ultraschallsensors bis zum nächsten Hindernis.
 	 * 
 	 * @return Die Distanz in cm.
-	 * @throws InterruptedException
 	 */
-	public double getRange() throws InterruptedException {
-		subscriberRange
-				.addMessageListener(new MessageListener<nxt_msgs.Range>() {
-					@Override
-					public void onNewMessage(Range message) {
-						range = message.getRange();
-					}
-				});
+	public double getRange(){
 		// Sensor liefert 10Hz
-		Thread.sleep(100);
+		// Thread.sleep(100);
 		return range;
 	}
 
@@ -244,5 +230,19 @@ public class Talker extends AbstractNodeMain {
 				nxt_msgs.Contact._TYPE);
 		subscriberRange = connectedNode.newSubscriber("ultrasonic_sensor",
 				nxt_msgs.Range._TYPE);
+		subscriberRange
+		.addMessageListener(new MessageListener<nxt_msgs.Range>() {
+			@Override
+			public void onNewMessage(Range message) {
+				range = message.getRange();
+			}
+		});
+		subscriberContact
+		.addMessageListener(new MessageListener<nxt_msgs.Contact>() {
+			@Override
+			public void onNewMessage(Contact message) {
+				contactStatus = message.getContact();
+			}
+		});
 	}
 }
