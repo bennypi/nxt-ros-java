@@ -16,15 +16,7 @@
 
 package org.ros.nxt_ros_java;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-
-import org.ros.exception.RosRuntimeException;
-import org.ros.internal.loader.CommandLineLoader;
-import org.ros.node.DefaultNodeMainExecutor;
-import org.ros.node.NodeConfiguration;
 import org.ros.node.NodeMain;
-import org.ros.node.NodeMainExecutor;
 import org.ros.nxt_ros_java.Talker;
 import org.ros.nxt_ros_java.NxtRosJavaInit;
 /**
@@ -37,12 +29,19 @@ public class MyMain {
   public static void main(String[] argv) throws Exception {
 		NxtRosJavaInit init = new NxtRosJavaInit(argv);
 		Talker t = init.getTalkerInstance();
-		System.out.println(t.getFoo());
 		System.out.println("Waiting ....");
 		t.waitForNode();
 		System.out.println("Waiting done");
-		for(int i = 0; i < 100; i++){
-			System.out.println(t.getRange());			
+		for (int a = 0; a<20; a++){
+			System.out.println(t.getRange());
 		}
+		for (int i = 0; i<4; i++){
+			System.out.println(t.getRange());
+			while (t.getRange()>0.35){
+				t.runTwoMotors("b", "c", 0, 1);				
+			}
+			t.runMotorB(750, 1);
+		}
+		t.allMotorStop();
   }
 }

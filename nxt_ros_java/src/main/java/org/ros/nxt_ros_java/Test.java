@@ -1,9 +1,5 @@
 package org.ros.nxt_ros_java;
 
-import org.ros.namespace.GraphName;
-import org.ros.node.AbstractNodeMain;
-import org.ros.node.ConnectedNode;
-
 public class Test{
 
 	public static void main(String[] argv){
