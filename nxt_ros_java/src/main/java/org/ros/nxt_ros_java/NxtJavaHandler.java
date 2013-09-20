@@ -20,12 +20,128 @@ import org.ros.nxt_ros_java.Talker;
  */
 public class NxtJavaHandler {
 
+	private final String ERROR_INTERRUPT_EXCEPTION= "Fehler aufgetreten. Die Methode wurde unterbrochen";
 	private Talker talkerInstance;
 
 	public Talker getTalkerInstance() {
 		return this.talkerInstance;
 	}
+	
+	/**
+	 * Gibt den Zustand des Kontaktsensors zurück. Die Frequenz liegt ca. bei 10
+	 * Hz.
+	 * 
+	 * @return true, wenn der Taster gedrückt ist, sonst false
+	 */
+	public boolean leseTaster(){
+		return this.talkerInstance.getContact();
+	}
+	
+	/**
+	 * Liefert die Distanz des Ultraschallsensors bis zum nächsten Hindernis.
+	 * 
+	 * @return Die Distanz in cm.
+	 */
+	public double leseDistanz(){
+		return this.talkerInstance.getRange();
+	}
+	
+	/*
+	 * MOTOREN
+	 *
+	 */
 
+	/**
+	 * Bewegt den Motor an Port A.
+	 * 
+	 * @param duration
+	 *            Wenn 0, bewegt sich der Motor unendlich lange. Sonst soviele
+	 *            Millisekunden wie angegeben. Motor rollt danach aus.
+	 * @param effort
+	 *            Die Kraft, mit der sich der Motor bewegen soll. Negatives
+	 *            Vorzeichen dreht den Motor in die andere Richtung.
+	 * @throws InterruptedException
+	 */
+	public void bewegeMotorA(int duration, double effort){
+		try {
+			this.talkerInstance.runMotor("a",duration,effort);
+		} catch (InterruptedException e) {
+			System.out.println(ERROR_INTERRUPT_EXCEPTION);
+			e.printStackTrace();
+		}	
+	}
+	
+	/**
+	 * Bewegt den Motor an Port B.
+	 * 
+	 * @param duration
+	 *            Wenn 0, bewegt sich der Motor unendlich lange. Sonst soviele
+	 *            Millisekunden wie angegeben. Motor rollt danach aus.
+	 * @param effort
+	 *            Die Kraft, mit der sich der Motor bewegen soll. Negatives
+	 *            Vorzeichen dreht den Motor in die andere Richtung.
+	 * @throws InterruptedException
+	 */
+	public void bewegeMotorB(int duration, double effort){
+		try {
+			this.talkerInstance.runMotor("b",duration,effort);
+		} catch (InterruptedException e) {
+			System.out.println(ERROR_INTERRUPT_EXCEPTION);
+			e.printStackTrace();
+		}	}
+	
+	/**
+	 * Bewegt den Motor an Port C.
+	 * 
+	 * @param duration
+	 *            Wenn 0, bewegt sich der Motor unendlich lange. Sonst soviele
+	 *            Millisekunden wie angegeben. Motor rollt danach aus.
+	 * @param effort
+	 *            Die Kraft, mit der sich der Motor bewegen soll. Negatives
+	 *            Vorzeichen dreht den Motor in die andere Richtung.
+	 * @throws InterruptedException
+	 */
+	public void bewegeMotorC(int duration, double effort) {
+		try {
+			this.talkerInstance.runMotor("c",duration,effort);
+		} catch (InterruptedException e) {
+			System.out.println(ERROR_INTERRUPT_EXCEPTION);
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Lässt zwei Motoren gleichzeitig laufen.
+	 * 
+	 * @param motor1
+	 *            Entweder "a", "b" oder "c"
+	 * @param motor2
+	 *            Entweder "a", "b" oder "c"
+	 * @param duration
+	 *            Wenn 0, bewegt sich der Motor unendlich lange. Sonst soviele
+	 *            Millisekunden wie angegeben. Motor rollt danach aus.
+	 * @param effort
+	 *            Die Kraft, mit der sich der Motor bewegen soll. Negatives
+	 *            Vorzeichen dreht den Motor in die andere Richtung.
+	 * @throws InterruptedException
+	 */
+	public void bewegeZweiMotoren(String motor1, String motor2, int duration,
+			double effort){
+			try {
+				this.talkerInstance.runTwoMotors(motor1, motor2, duration, effort);
+			} catch (InterruptedException e) {
+				System.out.println(ERROR_INTERRUPT_EXCEPTION);
+				e.printStackTrace();
+			}
+	}
+	
+	/**
+	 * Diese Methode wartet darauf, dass die Initialisierung der Programmumgebung abgeschlossen ist.
+	 */
+	public void warteAufInitialisierung(){
+		this.talkerInstance.waitForNode();
+	}
+	
 	public NxtJavaHandler(String[] argv) {
 		CommandLineLoader loader = new CommandLineLoader(
 				Lists.newArrayList(argv));
