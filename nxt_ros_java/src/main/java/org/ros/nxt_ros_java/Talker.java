@@ -69,15 +69,28 @@ public class Talker extends AbstractNodeMain {
 	 *            Vorzeichen dreht den Motor in die andere Richtung.
 	 * @throws InterruptedException
 	 */
+	@Deprecated
 	public void runMotorA(int duration, double effort)
 			throws InterruptedException {
+		runMotor("a",duration,effort);
+	}
+	
+	/**
+	 * Let the motor with the ID motorID run for "duration" with the effort "effort".
+	 * @param motorID Can be "a","b" or "c"
+	 * @param duration
+	 * @param effort
+	 * @throws InterruptedException
+	 */
+	public void runMotor(String motorID, int duration, double effort)
+			throws InterruptedException {
 		nxt_msgs.JointCommand command1 = publisherJointCommand.newMessage();
-		command1.setName("a_motor_joint");
+		command1.setName(motorID + "_motor_joint");
 		command1.setEffort(effort);
 		publisherJointCommand.publish(command1);
 		if (duration != 0) {
 			Thread.sleep(duration);
-			command1.setName("a_motor_joint");
+			command1.setName(motorID + "_motor_joint");
 			command1.setEffort(0);
 			publisherJointCommand.publish(command1);
 		}
@@ -94,20 +107,10 @@ public class Talker extends AbstractNodeMain {
 	 *            Vorzeichen dreht den Motor in die andere Richtung.
 	 * @throws InterruptedException
 	 */
+	@Deprecated
 	public void runMotorB(int duration, double effort)
 			throws InterruptedException {
-		nxt_msgs.JointCommand command1 = publisherJointCommand.newMessage();
-		command1.setName("b_motor_joint");
-		command1.setEffort(effort);
-		publisherJointCommand.publish(command1);
-		System.out.println("command abgeschickt");
-		if (duration != 0) {
-			Thread.sleep(duration);
-			command1.setName("b_motor_joint");
-			command1.setEffort(0);
-			publisherJointCommand.publish(command1);
-		}
-		;
+		runMotor("b",duration,effort);
 	}
 
 	/**
@@ -121,19 +124,10 @@ public class Talker extends AbstractNodeMain {
 	 *            Vorzeichen dreht den Motor in die andere Richtung.
 	 * @throws InterruptedException
 	 */
+	@Deprecated
 	public void runMotorC(int duration, double effort)
 			throws InterruptedException {
-		nxt_msgs.JointCommand command1 = publisherJointCommand.newMessage();
-		command1.setName("c_motor_joint");
-		command1.setEffort(effort);
-		publisherJointCommand.publish(command1);
-		System.out.println("command abgeschickt");
-		if (duration != 0) {
-			Thread.sleep(duration);
-			command1.setName("c_motor_joint");
-			command1.setEffort(0);
-			publisherJointCommand.publish(command1);
-		}
+		runMotor("c",duration,effort);
 	}
 
 	/**
@@ -189,28 +183,11 @@ public class Talker extends AbstractNodeMain {
 		publisherJointCommand.publish(command3);
 	}
 
-	/**
-	 * Gibt den Zustand des Kontaktsensors zurück. Die Frequenz liegt ca. bei 20
-	 * Hz.
-	 * 
-	 * @return true, wenn der Sensor gedrückt ist, sonst false
-	 * @throws InterruptedException
-	 */
-	public boolean getContact() throws InterruptedException {
-
-		// Sensor liefert 20Hz
-		// Thread.sleep(50);
+	public boolean getContact(){
 		return contactStatus;
 	}
 
-	/**
-	 * Liefert die Distanz des Ultraschallsensors bis zum nächsten Hindernis.
-	 * 
-	 * @return Die Distanz in cm.
-	 */
-	public double getRange() {
-		// Sensor liefert 10Hz
-		// Thread.sleep(100);
+	public double getRange(){
 		return range;
 	}
 	
