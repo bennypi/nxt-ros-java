@@ -32,22 +32,16 @@ public class MyMain {
 		System.out.println("Waiting ....");
 		t.waitForNode();
 		System.out.println("Waiting done");
-//		for (int i = 0; i<10; i++){
-//			while (t.getRange()>0.5){
-//				System.out.println("Abstand zu groß: " + t.getRange());
-//				t.runTwoMotors("b", "c", 0, 1);
-//			}
-//			System.out.println("Abstand zu klein: " + t.getRange());
-//			t.runMotorC(50, -1);
-//			t.runMotorB(300, 1);
-//			Thread.sleep(100);
-//		}
-//		t.allMotorStop();
-//		t.runTwoMotors("b", "c", 2000, 1);
-//		t.runTwoMotors("b", "c", 20, -1);
-		for (int b = 0; b<10; b++){
-			System.out.println(t.getIntensity());
-			Thread.sleep(500);
+		for (int i = 0; i<10; i++){
+			while (t.getRange()>0.5){
+				System.out.println("Abstand zu groß: " + t.getRange());
+				t.runTwoMotors("b", "c", 0, 1);
+			}
+			System.out.println("Abstand zu klein: " + t.getRange());
+			t.runMotor("c", 50, -1);
+			t.runMotor("b", 300, -1);
+			Thread.sleep(100);
 		}
+		t.allMotorStop();
   }
 }
