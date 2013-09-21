@@ -19,12 +19,39 @@ import org.ros.nxt_ros_java.Talker;
  * 
  */
 public class NxtJavaHandler {
+	
+	public enum Farbe{SCHWARZ,WEISS,ROT,GRUEN,BLAU,GELB,UNGUELTIG};	
 
 	private final String ERROR_INTERRUPT_EXCEPTION= "Fehler aufgetreten. Die Methode wurde unterbrochen";
 	private Talker talkerInstance;
 
 	public Talker getTalkerInstance() {
 		return this.talkerInstance;
+	}
+	
+	public Farbe leseFarbe(){
+		double r=this.talkerInstance.getColorR();
+		double g=this.talkerInstance.getColorG();
+		double b=this.talkerInstance.getColorB();
+		if(r==0.0 && g == 0.0 && b == 0.0)
+			return Farbe.SCHWARZ;
+		
+		if(r==0.0 && g == 0.0 && b == 1.0)
+			return Farbe.BLAU;
+		
+		if(r==0.0 && g == 1.0 && b == 0.0)
+			return Farbe.GRUEN;
+		
+		if(r==1.0 && g == 1.0 && b == 0.0)
+			return Farbe.GELB;
+		
+		if(r==1.0 && g == 0.0 && b == 1.0)
+			return Farbe.ROT;
+		
+		if(r==1.0 && g == 1.0 && b == 1.0)
+			return Farbe.WEISS;
+		
+		return Farbe.UNGUELTIG;
 	}
 	
 	/**
@@ -45,6 +72,8 @@ public class NxtJavaHandler {
 	public double leseDistanz(){
 		return this.talkerInstance.getRange();
 	}
+	
+	
 	
 	/*
 	 * MOTOREN
