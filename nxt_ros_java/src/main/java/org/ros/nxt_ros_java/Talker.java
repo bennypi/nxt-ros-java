@@ -34,14 +34,21 @@ public class Talker extends AbstractNodeMain {
 	private Subscriber<nxt_msgs.Range> subscriberRange;
 
 	private Subscriber<nxt_msgs.Color> subscriberIntensity;
+	
+	private Subscriber<nxt_msgs.Color> subscriberColorIntensity;
 
 	boolean contactStatus = false;
 	double range = 0;
 	double intensity = 0;
-
+	
+	double colorIntensity=0;
+	double colorR=0;
+	double colorG=0;
+	double colorB=0;
 	/**
 	 * Wartet so lange ab, bis sich die Node mit dem Master verbunden hat.
 	 */
+	
 	public void waitForNode() {
 		while (this.connectedNode == null) {
 			try {
@@ -209,6 +216,23 @@ public class Talker extends AbstractNodeMain {
 	public GraphName getDefaultNodeName() {
 		return GraphName.of("rosjava_tutorial_pubsub/talker");
 	}
+	
+
+	public double getColorIntensity() {
+		return colorIntensity;
+	}
+
+	public double getColorR() {
+		return colorR;
+	}
+
+	public double getColorG() {
+		return colorG;
+	}
+
+	public double getColorB() {
+		return colorB;
+	}
 
 	/**
 	 * Methode für die Technik dahinter.
@@ -224,6 +248,10 @@ public class Talker extends AbstractNodeMain {
 				nxt_msgs.Range._TYPE);
 		subscriberIntensity = connectedNode.newSubscriber("intensity_sensor",
 				nxt_msgs.Color._TYPE);
+		
+		subscriberColorIntensity = connectedNode.newSubscriber("color_sensor",
+				nxt_msgs.Color._TYPE);
+		
 		subscriberRange
 				.addMessageListener(new MessageListener<nxt_msgs.Range>() {
 					@Override
@@ -238,11 +266,22 @@ public class Talker extends AbstractNodeMain {
 						contactStatus = message.getContact();
 					}
 				});
+		
 		subscriberIntensity.addMessageListener(new MessageListener<Color>() {
 
 			@Override
 			public void onNewMessage(Color message) {
 				intensity = message.getIntensity();
+			}
+		});
+		subscriberColorIntensity.addMessageListener(new MessageListener<Color>() {
+
+			@Override
+			public void onNewMessage(Color message) {
+				colorIntensity = message.getIntensity();
+				colorR = message.getR();
+				colorG = message.getG();
+				colorB = message.getB();
 			}
 		});
 	}
